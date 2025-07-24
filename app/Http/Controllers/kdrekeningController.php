@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bkk;
+use App\Models\KdRekening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class BkkController extends Controller
+class kdrekeningController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        $data = Bkk::all(); // Ambil semua buku beserta relasi user
+        $data = KdRekening::where('id_bpbarang', $id)->get();
         return response()->json($data, 200);
     }
 
@@ -24,12 +24,9 @@ class BkkController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'tanggal' => 'required',
-            'uraian' => 'required',
-            'instansi' => 'required',
-            'pekerjaan' => 'required',
-            'debit' => 'required',
-            'kredit' => 'required',
+            'id_bpbarang' => 'required',
+            'no_rekening' => 'required',
+            'ket' => 'required',
         ]);
 
         
@@ -42,10 +39,10 @@ class BkkController extends Controller
         }
 
         // Simpan buku baru
-        $data = Bkk::create($request->all());
+        $data = KdRekening::create($request->all());
 
         return response()->json([
-            'message' => 'Buku kas kecil created successfully.',
+            'message' => 'Kode Rekening created successfully.',
             'data' => $data
         ], 201);
     }
@@ -53,7 +50,7 @@ class BkkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bkk $bkk)
+    public function show(KdRekening $kdRekening)
     {
         //
     }
@@ -61,7 +58,7 @@ class BkkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bkk $bkk)
+    public function update(Request $request, KdRekening $kdRekening)
     {
         //
     }
@@ -69,7 +66,7 @@ class BkkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bkk $bkk)
+    public function destroy(KdRekening $kdRekening)
     {
         //
     }

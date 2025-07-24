@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal');
             $table->string('uraian');
-            $table->string('debit');
-            $table->string('kredit');
-            $table->string('saldo');
+            $table->string('instansi');
+            $table->string('pekerjaan');
+            $table->double('debit');
+            $table->double('kredit');
             $table->timestamps();
         });
     }

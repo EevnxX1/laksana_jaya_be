@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bkk;
+use App\Models\BarangDpa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class BkkController extends Controller
+class barangDpaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        $data = Bkk::all(); // Ambil semua buku beserta relasi user
+        $data = BarangDpa::where('id_bpbarang', $id)->get();
         return response()->json($data, 200);
     }
 
@@ -24,12 +24,13 @@ class BkkController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'tanggal' => 'required',
-            'uraian' => 'required',
-            'instansi' => 'required',
-            'pekerjaan' => 'required',
-            'debit' => 'required',
-            'kredit' => 'required',
+            'id_bpbarang' => 'required',
+            'nama_barang' => 'required',
+            'spesifikasi' => 'required',
+            'vol' => 'required',
+            'satuan' => 'required',
+            'harga_satuan' => 'required',
+            'harga_total' => 'required',
         ]);
 
         
@@ -42,10 +43,10 @@ class BkkController extends Controller
         }
 
         // Simpan buku baru
-        $data = Bkk::create($request->all());
+        $data = BarangDpa::create($request->all());
 
         return response()->json([
-            'message' => 'Buku kas kecil created successfully.',
+            'message' => 'Barang DPA created successfully.',
             'data' => $data
         ], 201);
     }
@@ -53,7 +54,7 @@ class BkkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bkk $bkk)
+    public function show(BarangDpa $barangDpa)
     {
         //
     }
@@ -61,7 +62,7 @@ class BkkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bkk $bkk)
+    public function update(Request $request, BarangDpa $barangDpa)
     {
         //
     }
@@ -69,7 +70,7 @@ class BkkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bkk $bkk)
+    public function destroy(BarangDpa $barangDpa)
     {
         //
     }
