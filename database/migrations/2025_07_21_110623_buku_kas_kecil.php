@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('tbl_bkk', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_bpbarang');
+            $table->bigInteger('id_bpjasa');
+            $table->string('identity');
+            $table->string('identity_uk');
             $table->date('tanggal');
-            $table->string('uraian');
             $table->string('instansi');
             $table->string('pekerjaan');
+            $table->string('uraian');
+            $table->double('harga_satuan');
+            $table->string('volume');
+            $table->string('satuan');
+            $table->text('nota');
             $table->double('debit');
             $table->double('kredit');
             $table->timestamps();

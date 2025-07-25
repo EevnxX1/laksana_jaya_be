@@ -70,8 +70,16 @@ class barangDpaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BarangDpa $barangDpa)
+    public function destroy($id)
     {
-        //
+        $data = BarangDpa::find($id);
+
+        if (!$data) {
+            return response()->json(['message' => 'Barang DPA not found.'], 404);
+        }
+
+        $data->delete();
+
+        return response()->json(['message' => 'Barang DPA deleted successfully.'], 200);
     }
 }

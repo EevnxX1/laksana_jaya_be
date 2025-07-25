@@ -12,10 +12,18 @@ class Bkk extends Model
     protected $table = 'tbl_bkk';
 
     protected $fillable = [
+        'id_bpbarang',
+        'id_bpjasa',
+        'identity',
+        'identity_uk',
         'tanggal',
-        'uraian',
         'instansi',
         'pekerjaan',
+        'uraian',
+        'harga_satuan',
+        'volume',
+        'satuan',
+        'nota',
         'debit',
         'kredit',
     ];

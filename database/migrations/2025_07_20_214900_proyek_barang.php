@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('tahun_anggaran');
             $table->date('mulai_pekerjaan');
             $table->date('selesai_pekerjaan');
-            $table->string('nilai_pekerjaan');
             $table->string('label_pekerjaan');
             $table->timestamps();
         });
