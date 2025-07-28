@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tbl_barangdpa', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_bpbarang');
+            $table->bigInteger('id_kdrekening');
             $table->string('nama_barang');
             $table->string('spesifikasi');
             $table->string('vol');

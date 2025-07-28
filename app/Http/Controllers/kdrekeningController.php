@@ -66,8 +66,16 @@ class kdrekeningController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KdRekening $kdRekening)
+    public function destroy($id)
     {
-        //
+        $data = KdRekening::find($id);
+
+        if (!$data) {
+            return response()->json(['message' => 'Kode Rekening not found.'], 404);
+        }
+
+        $data->delete();
+
+        return response()->json(['message' => 'Kode Rekening deleted successfully.'], 200);
     }
 }

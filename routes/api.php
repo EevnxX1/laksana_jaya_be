@@ -31,6 +31,7 @@ Route::delete('/barangdpa/{id}', [barangDpaController::class, 'destroy']);
 
 Route::get('/kdrekening/{id}', [kdrekeningController::class, 'index']);
 Route::post('/kdrekening/tambah_data', [kdrekeningController::class, 'store']); // Tambah buku proyek barang
+Route::delete('/kdrekening/{id}', [kdrekeningController::class, 'destroy']);
 
 Route::get('/instansi', [instansiController::class, 'index']);
 

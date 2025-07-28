@@ -25,6 +25,7 @@ class barangDpaController extends Controller
         // Validasi data
         $validator = Validator::make($request->all(), [
             'id_bpbarang' => 'required',
+            'id_kdrekening' => 'required',
             'nama_barang' => 'required',
             'spesifikasi' => 'required',
             'vol' => 'required',

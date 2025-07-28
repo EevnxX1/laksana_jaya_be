@@ -12,6 +12,7 @@ class BarangDpa extends Model
 
     protected $fillable = [
         'id_bpbarang',
+        'id_kdrekening',
         'nama_barang',
         'spesifikasi',
         'vol',
