@@ -24,6 +24,13 @@ return new class extends Migration
             $table->double('harga_satuan');
             $table->string('volume');
             $table->string('satuan');
+            $table->double('kb_kas');
+            $table->double('upah');
+            $table->double('material_kaskecil');
+            $table->double('material_kasbesar');
+            $table->double('non_material');
+            $table->double('dircost');
+            $table->double('grand_total');
             $table->text('nota');
             $table->double('debit');
             $table->double('kredit');

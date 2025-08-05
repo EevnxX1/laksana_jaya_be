@@ -26,5 +26,12 @@ class Bkk extends Model
         'nota',
         'debit',
         'kredit',
+        'kb_kas',
+        'upah',
+        'material_kaskecil',
+        'material_kasbesar',
+        'non_material',
+        'dircost',
+        'grand_total',
     ];
 }

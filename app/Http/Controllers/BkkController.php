@@ -25,6 +25,15 @@ class BkkController extends Controller
         return response()->json($data, 200);
 
     }
+    public function detail_jasa($id)
+    {
+        $data = Bkk::where('id_bpjasa', $id)
+                 ->where('identity_uk', 'buku_jasa')
+                 ->get();
+
+        return response()->json($data, 200);
+
+    }
     public function detail_kantor()
     {
         $data = Bkk::where('identity_uk', 'buku_kantor')->get();
@@ -51,6 +60,13 @@ class BkkController extends Controller
             'nota' => 'required',
             'debit' => 'required',
             'kredit' => 'required',
+            'kb_kas' => 'required',
+            'upah' => 'required',
+            'material_kaskecil' => 'required',
+            'material_kasbesar' => 'required',
+            'non_material' => 'required',
+            'dircost' => 'required',
+            'grand_total' => 'required',
         ]);
 
         
@@ -88,6 +104,13 @@ class BkkController extends Controller
             'nota' => 'required',
             'debit' => 'required',
             'kredit' => 'required',
+            'kb_kas' => 'required',
+            'upah' => 'required',
+            'material_kaskecil' => 'required',
+            'material_kasbesar' => 'required',
+            'non_material' => 'required',
+            'dircost' => 'required',
+            'grand_total' => 'nullable|string',
         ]);
 
         
@@ -97,6 +120,11 @@ class BkkController extends Controller
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
+        }
+
+        $grandtotal = $request->grand_total;
+        if(is_null($request->$grandtotal)) {
+            $grandtotal = $request->debit;
         }
 
         // Upload gambar jika ada
@@ -126,6 +154,13 @@ class BkkController extends Controller
             'nota' => isset($url) ? $url : null,  // Menyimpan URL gambar,
             'debit' => $request->debit,
             'kredit' => $request->kredit,
+            'kb_kas' => $request->kb_kas,
+            'upah' => $request->upah,
+            'material_kaskecil' => $request->material_kaskecil,
+            'material_kasbesar' => $request->material_kasbesar,
+            'non_material' => $request->non_material,
+            'dircost' => $request->dircost,
+            'grand_total' => $grandtotal,
         ]);
 
         return response()->json([

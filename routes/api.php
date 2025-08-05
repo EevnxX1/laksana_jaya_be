@@ -8,6 +8,7 @@ use App\Http\Controllers\bp_barangController;
 use App\Http\Controllers\barangDpaController;
 use App\Http\Controllers\kdrekeningController;
 use App\Http\Controllers\instansiController;
+use App\Http\Controllers\bp_jasaController;
 
 // Public
 Route::post('/register', [AuthController::class, 'register']);
@@ -16,6 +17,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // admin
 Route::get('/bkk', [BkkController::class, 'index']);
 Route::get('/bkk/detail_barang/{id}', [BkkController::class, 'detail_barang']);
+Route::get('/bkk/detail_jasa/{id}', [BkkController::class, 'detail_jasa']);
 Route::get('/bkk/detail_kantor', [BkkController::class, 'detail_kantor']);
 Route::post('/bkk/uang_masuk', [BkkController::class, 'store']); // Tambah bab baru
 Route::post('/bkk/uang_keluar', [BkkController::class, 'uang_keluar']); // Tambah bab baru
@@ -24,6 +26,10 @@ Route::delete('/bkk/{id}', [BkkController::class, 'destroy']);
 Route::get('/bp_barang', [bp_barangController::class, 'index']);
 Route::get('/bp_barang/detail/{id}', [bp_barangController::class, 'detail']);
 Route::post('/bp_barang/tambah_data', [bp_barangController::class, 'store']); // Tambah buku proyek barang
+
+Route::get('/bp_jasa', [bp_jasaController::class, 'index']);
+Route::get('/bp_jasa/detail/{id}', [bp_jasaController::class, 'detail']);
+Route::post('/bp_jasa/tambah_data', [bp_jasaController::class, 'store']); // Tambah buku proyek barang
 
 Route::get('/barangdpa/{id}', [barangDpaController::class, 'index']);
 Route::post('/barangdpa/tambah_data', [BarangDpaController::class, 'store']); // Tambah buku proyek barang
