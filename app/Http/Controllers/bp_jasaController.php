@@ -83,16 +83,67 @@ class bp_jasaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bp_jasa $bp_jasa)
+    public function update(Request $request, $id)
     {
-        //
+        // Validasi data
+        $validator = Validator::make($request->all(), [
+            'post' => 'nullable|string',
+            'tanggal' => 'required',
+            'instansi' => 'required',
+            'tahun_anggaran' => 'required',
+            'nama_pekerjaan' => 'required',
+            'nilai_pekerjaan' => 'required',
+            'sub_kegiatan' => 'required',
+        ]);
+
+        
+        
+        // Jika validasi gagal
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        
+        $instansi = $request->instansi;
+        $tanggal = $request->tanggal;
+        $post = $request->post;
+        if(is_null($post)) {
+            $post = "$instansi/$tanggal";
+        } 
+
+        $bpj = Bp_jasa::findOrFail($id);
+
+        // Simpan buku baru
+        $bpj->update([
+            'post' => $post,
+            'tanggal' => $request->tanggal,
+            'instansi' => $request->instansi,
+            'tahun_anggaran' => $request->tahun_anggaran,
+            'nama_pekerjaan' => $request->nama_pekerjaan,
+            'nilai_pekerjaan' => $request->nilai_pekerjaan,
+            'sub_kegiatan' => $request->sub_kegiatan,
+        ]);
+
+        return response()->json([
+            'message' => 'Buku Proyek Jasa Updated successfully.',
+            'data' => $bpj
+        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bp_jasa $bp_jasa)
+     public function destroy($id)
     {
-        //
+        $data = Bp_jasa::find($id);
+
+        if (!$data) {
+            return response()->json(['message' => 'Buku Proyek Jasa not found.'], 404);
+        }
+
+        $data->delete();
+
+        return response()->json(['message' => 'Buku Proyek Jasa deleted successfully.'], 200);
     }
 }

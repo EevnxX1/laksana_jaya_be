@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('mulai_pekerjaan');
             $table->date('selesai_pekerjaan');
             $table->string('label_pekerjaan');
+            $table->double('nilai_pekerjaan');
             $table->timestamps();
         });
     }

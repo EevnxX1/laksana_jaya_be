@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Bkk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class BkkController extends Controller
 {
@@ -37,6 +39,12 @@ class BkkController extends Controller
     public function detail_kantor()
     {
         $data = Bkk::where('identity_uk', 'buku_kantor')->get();
+        return response()->json($data, 200);
+    }
+    
+    public function edit($id)
+    {
+        $data = Bkk::where('id', $id)->get();
         return response()->json($data, 200);
     }
 
@@ -101,7 +109,7 @@ class BkkController extends Controller
             'harga_satuan' => 'required',
             'volume' => 'required',
             'satuan' => 'required',
-            'nota' => 'required',
+            'nota' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'debit' => 'required',
             'kredit' => 'required',
             'kb_kas' => 'required',
@@ -134,8 +142,6 @@ class BkkController extends Controller
         $path = $file->storeAs('data_nota', $filename, 'public');
         $url = asset('storage/' . $path);
 
-        } else {
-            return response()->json(['error' => 'Tidak ada file yang diupload'], 400);
         }
 
         // Simpan buku baru
@@ -151,7 +157,7 @@ class BkkController extends Controller
             'harga_satuan' => $request->harga_satuan,
             'volume' => $request->volume,
             'satuan' => $request->satuan,
-            'nota' => isset($url) ? $url : null,  // Menyimpan URL gambar,
+            'nota' => isset($url) ? $url : '-',  // Menyimpan URL gambar,
             'debit' => $request->debit,
             'kredit' => $request->kredit,
             'kb_kas' => $request->kb_kas,
@@ -180,9 +186,85 @@ class BkkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bkk $bkk)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id_bpbarang' => 'required',
+            'id_bpjasa' => 'required',
+            'identity' => 'required',
+            'identity_uk' => 'required',
+            'tanggal' => 'required',
+            'instansi' => 'required',
+            'pekerjaan' => 'required',
+            'uraian' => 'required',
+            'harga_satuan' => 'required',
+            'volume' => 'required',
+            'satuan' => 'required',
+            'nota' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'debit' => 'required',
+            'kredit' => 'required',
+            'kb_kas' => 'required',
+            'upah' => 'required',
+            'material_kaskecil' => 'required',
+            'material_kasbesar' => 'required',
+            'non_material' => 'required',
+            'dircost' => 'required',
+            'grand_total' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $grandtotal = $request->grand_total;
+        if(is_null($request->$grandtotal)) {
+            $grandtotal = $request->debit;
+        }
+
+        $bkk = Bkk::findOrFail($id);
+
+        // Upload gambar jika ada
+        if ($request->hasFile('nota')) {
+            if ($bkk->nota && Storage::disk('public')->exists($bkk->nota)) {
+                Storage::disk('public')->delete($bkk->nota);
+            }
+            $file = $request->file('nota');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('data_nota', $filename, 'public');
+            $url = asset('storage/' . $path);
+        } else {
+            $url_before = $bkk->nota; // gunakan file lama kalau ada
+        }
+
+        $bkk->update([
+            'id_bpbarang' => $request->id_bpbarang,
+            'id_bpjasa' => $request->id_bpjasa,
+            'identity' => $request->identity,
+            'identity_uk' => $request->identity_uk,
+            'tanggal' => $request->tanggal,
+            'instansi' => $request->instansi,
+            'pekerjaan' => $request->pekerjaan,
+            'uraian' => $request->uraian,
+            'harga_satuan' => $request->harga_satuan,
+            'volume' => $request->volume,
+            'satuan' => $request->satuan,
+            'nota' => isset($url) ? $url : $url_before,  // Menyimpan URL gambar,
+            'debit' => $request->debit,
+            'kredit' => $request->kredit,
+            'kb_kas' => $request->kb_kas,
+            'upah' => $request->upah,
+            'material_kaskecil' => $request->material_kaskecil,
+            'material_kasbesar' => $request->material_kasbesar,
+            'non_material' => $request->non_material,
+            'dircost' => $request->dircost,
+            'grand_total' => $grandtotal,
+        ]);
+
+        return response()->json([
+            'message' => 'Buku Kas Kecil updated successfully.',
+            'BKK' => $bkk
+        ], 200);
+
     }
 
     /**

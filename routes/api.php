@@ -21,15 +21,21 @@ Route::get('/bkk/detail_jasa/{id}', [BkkController::class, 'detail_jasa']);
 Route::get('/bkk/detail_kantor', [BkkController::class, 'detail_kantor']);
 Route::post('/bkk/uang_masuk', [BkkController::class, 'store']); // Tambah bab baru
 Route::post('/bkk/uang_keluar', [BkkController::class, 'uang_keluar']); // Tambah bab baru
+Route::get('/bkk/edit/{id}', [BkkController::class, 'edit']); // Tambah bab baru
+Route::post('/bkk/ubah_data/{id}', [BkkController::class, 'update']); // Tambah bab baru
 Route::delete('/bkk/{id}', [BkkController::class, 'destroy']);
 
 Route::get('/bp_barang', [bp_barangController::class, 'index']);
 Route::get('/bp_barang/detail/{id}', [bp_barangController::class, 'detail']);
 Route::post('/bp_barang/tambah_data', [bp_barangController::class, 'store']); // Tambah buku proyek barang
+Route::post('/bp_barang/ubah_data/{id}', [bp_barangController::class, 'update']); // Tambah buku proyek barang
+Route::delete('/bp_barang/hapus_data/{id}', [bp_barangController::class, 'destroy']); // Tambah buku proyek barang
 
 Route::get('/bp_jasa', [bp_jasaController::class, 'index']);
 Route::get('/bp_jasa/detail/{id}', [bp_jasaController::class, 'detail']);
 Route::post('/bp_jasa/tambah_data', [bp_jasaController::class, 'store']); // Tambah buku proyek barang
+Route::post('/bp_jasa/ubah_data/{id}', [bp_jasaController::class, 'update']); // Tambah buku proyek barang
+Route::delete('/bp_jasa/hapus_data/{id}', [bp_jasaController::class, 'destroy']); // Tambah buku proyek barang
 
 Route::get('/barangdpa/{id}', [barangDpaController::class, 'index']);
 Route::post('/barangdpa/tambah_data', [BarangDpaController::class, 'store']); // Tambah buku proyek barang

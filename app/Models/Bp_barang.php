@@ -22,5 +22,6 @@ class Bp_barang extends Model
         'mulai_pekerjaan',
         'selesai_pekerjaan',
         'label_pekerjaan',
+        'nilai_pekerjaan',
     ];
 }
