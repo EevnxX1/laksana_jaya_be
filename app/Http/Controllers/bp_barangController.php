@@ -130,7 +130,7 @@ class bp_barangController extends Controller
 
         $bpb = Bp_barang::findOrFail($id);
 
-        // Simpan buku baru
+        // Simpan data baru
         $bpb->update([
             'tanggal' => $request->tanggal,
             'post' => $post,

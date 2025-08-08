@@ -9,10 +9,12 @@ use App\Http\Controllers\barangDpaController;
 use App\Http\Controllers\kdrekeningController;
 use App\Http\Controllers\instansiController;
 use App\Http\Controllers\bp_jasaController;
+use App\Http\Controllers\BkbController;
 
 // Public
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/updated/{id}', [AuthController::class, 'update']);
 
 // admin
 Route::get('/bkk', [BkkController::class, 'index']);
@@ -45,7 +47,17 @@ Route::get('/kdrekening/{id}', [kdrekeningController::class, 'index']);
 Route::post('/kdrekening/tambah_data', [kdrekeningController::class, 'store']); // Tambah buku proyek barang
 Route::delete('/kdrekening/{id}', [kdrekeningController::class, 'destroy']);
 
+Route::get('/bkb', [BkbController::class, 'index']);
+Route::get('/bkb/{id}', [BkbController::class, 'show']);
+Route::post('/bkb/tambah_data', [BkbController::class, 'store']); // Tambah buku proyek barang
+Route::post('/bkb/ubah_data/{id}', [BkbController::class, 'update']); // Tambah buku proyek barang
+Route::delete('/bkb/hapus_data/{id}', [BkbController::class, 'destroy']);
+
 Route::get('/instansi', [instansiController::class, 'index']);
+Route::get('/instansi/{id}', [instansiController::class, 'show']);
+Route::post('/instansi/tambah_data', [instansiController::class, 'store']);
+Route::post('/instansi/ubah_data/{id}', [instansiController::class, 'update']);
+Route::delete('/instansi/hapus_data/{id}', [instansiController::class, 'destroy']);
 
 
 // Protected

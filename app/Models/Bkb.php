@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Instansi extends Model
+class Bkb extends Model
 {
     use HasFactory;
 
-    protected $table = 'tbl_instansi';
+    protected $table = 'tbl_bkb';
 
     protected $fillable = [
-        'instansi',
-        'post',
-        'alamat_instansi',
-        'no_telp',
-        'npwp',
+        'tanggal',
+        'kd_transaksi',
+        'uraian',
+        'debit',
+        'kredit',
     ];
 }

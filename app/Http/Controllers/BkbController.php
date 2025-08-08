@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instansi;
+use App\Models\Bkb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class instansiController extends Controller
+class BkbController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Instansi::all(); // Ambil semua buku beserta relasi user
+        $data = Bkb::all(); // Ambil semua buku beserta relasi user
         return response()->json($data, 200);
     }
 
@@ -24,12 +24,14 @@ class instansiController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'instansi' => 'required',
-            'post' => 'required',
-            'alamat_instansi' => 'required',
-            'no_telp' => 'required',
-            'npwp' => 'required',
+            'tanggal' => 'required',
+            'kd_transaksi' => 'required',
+            'uraian' => 'required',
+            'debit' => 'required',
+            'kredit' => 'required',
         ]);
+
+        
         
         // Jika validasi gagal
         if ($validator->fails()) {
@@ -39,10 +41,10 @@ class instansiController extends Controller
         }
 
         // Simpan data baru
-        $data = Instansi::create($request->all());
+        $data = Bkb::create($request->all());
 
         return response()->json([
-            'message' => 'Data Instansi created successfully.',
+            'message' => 'Buku Kas Besar created successfully.',
             'data' => $data
         ], 201);
     }
@@ -52,7 +54,7 @@ class instansiController extends Controller
      */
     public function show($id)
     {
-        $data = Instansi::where('id', $id)->get();
+        $data = Bkb::where('id', $id)->get();
         return response()->json($data, 200);
     }
 
@@ -63,12 +65,14 @@ class instansiController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'instansi' => 'required',
-            'post' => 'required',
-            'alamat_instansi' => 'required',
-            'no_telp' => 'required',
-            'npwp' => 'required',
+            'tanggal' => 'required',
+            'kd_transaksi' => 'required',
+            'uraian' => 'required',
+            'debit' => 'required',
+            'kredit' => 'required',
         ]);
+
+        
         
         // Jika validasi gagal
         if ($validator->fails()) {
@@ -76,15 +80,15 @@ class instansiController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-        
-        $instansi = Instansi::findOrFail($id);
+
+        $bkb = Bkb::findOrFail($id);
 
         // Simpan data baru
-        $instansi->update($request->all());
+        $bkb->update($request->all());
 
         return response()->json([
-            'message' => 'Data Instansi updated successfully.',
-            'data' => $instansi
+            'message' => 'Buku Kas Besar updated successfully.',
+            'data' => $bkb
         ], 201);
     }
 
@@ -93,14 +97,14 @@ class instansiController extends Controller
      */
     public function destroy($id)
     {
-         $data = Instansi::find($id);
+         $data = Bkb::find($id);
 
         if (!$data) {
-            return response()->json(['message' => 'Data Instansi not found.'], 404);
+            return response()->json(['message' => 'Buku Kas Besar not found.'], 404);
         }
 
         $data->delete();
 
-        return response()->json(['message' => 'Data Instansi deleted successfully.'], 200);
+        return response()->json(['message' => 'Buku Kas Besar deleted successfully.'], 200);
     }
 }

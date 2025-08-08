@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbl_instansi', function (Blueprint $table) {
+        Schema::create('tbl_bkb', function (Blueprint $table) {
             $table->id();
-            $table->string('instansi');
-            $table->string('post');
-            $table->string('alamat_instansi');
-            $table->string('no_telp');
-            $table->string('npwp');
+            $table->date('tanggal');
+            $table->string('kd_transaksi');
+            $table->string('uraian');
+            $table->double('debit');
+            $table->double('kredit');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tbl_instansi');
+        Schema::dropIfExists('tbl_bkb');
     }
 };

@@ -5,6 +5,7 @@ use \Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -17,6 +18,8 @@ class AuthController extends Controller
             'username' => 'required',
             'email'    => 'required|email',
             'password' => 'required',
+            'alamat'   => 'required',
+            'no_hp'    => 'required',
             'role'     => 'required',
         ]);
 
@@ -28,6 +31,8 @@ class AuthController extends Controller
             'username' => $request->username,
             'email'    => $request->email,
             'password' => bcrypt($request->password),
+            'alamat'   => $request->alamat,
+            'no_hp'    => $request->no_hp,
             'role'     => $request->role,
         ]);
 
@@ -41,6 +46,49 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,
+        ], 201);
+    }
+
+    public function update(Request $request, $id) 
+    {
+        // Validasi data
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required',
+            'username' => 'required',
+            'email'    => 'required|email',
+            'password' => 'nullable|string',
+            'alamat'   => 'required',
+            'no_hp'    => 'required',
+            'role'     => 'required',
+        ]);
+
+        // Jika validasi gagal
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $data = User::findOrFail($id);
+
+        if(is_null($request->password)) {
+            $passBefore = $data->password;
+        }
+
+        // Simpan data baru
+        $data->update([
+            'name'     => $request->name,
+            'username' => $request->username,
+            'email'    => $request->email,
+            'password' => isset($passBefore) ? $passBefore : bcrypt($request->password),
+            'alamat'   => $request->alamat,
+            'no_hp'    => $request->no_hp,
+            'role'     => $request->role,
+        ]);
+
+        return response()->json([
+            'message' => 'User updated successfully.',
+            'data' => $data
         ], 201);
     }
 
@@ -76,5 +124,18 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logged out']);
+    }
+
+    public function destroy($id)
+    {
+        $data = User::find($id);
+
+        if (!$data) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        $data->delete();
+
+        return response()->json(['message' => 'User deleted successfully.'], 200);
     }
 }
