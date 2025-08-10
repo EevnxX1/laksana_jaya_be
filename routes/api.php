@@ -12,9 +12,12 @@ use App\Http\Controllers\bp_jasaController;
 use App\Http\Controllers\BkbController;
 
 // Public
+Route::get('/user/all', [AuthController::class, 'view']);
+Route::get('/user/detail/{id}', [AuthController::class, 'view_detail']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/updated/{id}', [AuthController::class, 'update']);
+Route::delete('/deleted/{id}', [AuthController::class, 'destroy']);
 
 // admin
 Route::get('/bkk', [BkkController::class, 'index']);

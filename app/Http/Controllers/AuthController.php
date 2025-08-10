@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth; 
 
 class AuthController extends Controller
 {
+    public function view()
+    {
+        $data = User::all(); // Ambil semua buku beserta relasi user
+        return response()->json($data, 200);
+    }
+    public function view_detail($id)
+    {
+        $data = User::where('id', $id)->get(); // Ambil semua buku beserta relasi user
+        return response()->json($data, 200);
+    }
+
     // Register
     public function register(Request $request)
     {

@@ -71,8 +71,6 @@ class BkbController extends Controller
             'debit' => 'required',
             'kredit' => 'required',
         ]);
-
-        
         
         // Jika validasi gagal
         if ($validator->fails()) {

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('alamat_instansi');
             $table->string('no_telp');
             $table->string('npwp');
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
