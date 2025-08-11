@@ -13,9 +13,41 @@ class BkkController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Bkk::all(); // Ambil semua buku beserta relasi user
+        // Memulai query builder. Menggunakan Bkk::query() adalah cara terbaik
+        // untuk membangun query secara dinamis.
+        $query = Bkk::query();
+
+        // 1. Logika Search by Keyword
+        // Memeriksa apakah ada parameter 'keyword' di request.
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+        
+            // Menambahkan klausa 'where' untuk mencari data yang cocok
+            // pada kolom tertentu (misalnya 'judul' atau 'deskripsi').
+            // Anda bisa tambahkan kolom lain sesuai kebutuhan.
+            $query->where('instansi', 'like', "%$keyword%")
+                    ->orWhere('pekerjaan', 'like', "%$keyword%")
+                    ->orWhere('uraian', 'like', "%$keyword%")
+                    ->orWhere('uraian', 'like', "%$keyword%");
+        }
+
+        // 2. Logika Search by Date Range
+        // Memeriksa apakah ada parameter 'start_date' dan 'end_date'.
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+        
+            // Menambahkan klausa 'whereBetween' untuk mencari data dalam rentang tanggal
+            // pada kolom 'created_at'. Anda bisa ganti 'created_at' jika perlu.
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        }
+
+        // Eksekusi query untuk mendapatkan data yang sudah difilter
+        $data = $query->get();
+
+        // Mengembalikan data sebagai JSON
         return response()->json($data, 200);
     }
     public function detail_barang($id)

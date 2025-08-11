@@ -51,8 +51,9 @@ class bp_jasaController extends Controller
         $instansi = $request->instansi;
         $tanggal = $request->tanggal;
         $post = $request->post;
+        $pekerjaan = $request->nama_pekerjaan;
         if(is_null($post)) {
-            $post = "$instansi/$tanggal";
+            $post = "$instansi/$pekerjaan/$tanggal";
         } 
 
         // Simpan buku baru
@@ -107,9 +108,10 @@ class bp_jasaController extends Controller
         
         $instansi = $request->instansi;
         $tanggal = $request->tanggal;
+        $pekerjaan = $request->nama_pekerjaan;
         $post = $request->post;
         if(is_null($post)) {
-            $post = "$instansi/$tanggal";
+            $post = "$instansi/$pekerjaan/$tanggal";
         } 
 
         $bpj = Bp_jasa::findOrFail($id);
