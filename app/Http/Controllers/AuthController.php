@@ -10,9 +10,25 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function view()
+    public function view(Request $request)
     {
-        $data = User::all(); // Ambil semua buku beserta relasi user
+        $query = User::query();
+        
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+        
+            // Menambahkan klausa 'where' untuk mencari data yang cocok
+            // pada kolom tertentu (misalnya 'judul' atau 'deskripsi').
+            // Anda bisa tambahkan kolom lain sesuai kebutuhan.
+            $query->where('name', 'like', "%$keyword%")
+                    ->orWhere('alamat', 'like', "%$keyword%")
+                    ->orWhere('role', 'like', "%$keyword%")
+                    ->orWhere('no_hp', 'like', "%$keyword%");
+        }
+
+        $data = $query->get();
+
+        // Mengembalikan data sebagai JSON
         return response()->json($data, 200);
     }
     public function view_detail($id)

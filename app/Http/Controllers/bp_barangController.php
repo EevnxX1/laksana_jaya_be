@@ -11,10 +11,28 @@ class bp_barangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bpb = Bp_barang::all(); // Ambil semua buku beserta relasi user
-        return response()->json($bpb, 200);
+        $query = Bp_barang::query();
+
+        // 1. Logika Search by Keyword
+        // Memeriksa apakah ada parameter 'keyword' di request.
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+        
+            // Menambahkan klausa 'where' untuk mencari data yang cocok
+            // pada kolom tertentu (misalnya 'judul' atau 'deskripsi').
+            // Anda bisa tambahkan kolom lain sesuai kebutuhan.
+            $query->where('instansi', 'like', "%$keyword%")
+                    ->orWhere('pekerjaan', 'like', "%$keyword%")
+                    ->orWhere('post', 'like', "%$keyword%");
+        }
+
+        // Eksekusi query untuk mendapatkan data yang sudah difilter
+        $data = $query->get();
+
+        // Mengembalikan data sebagai JSON
+        return response()->json($data, 200);
     }
     public function detail($id)
     {

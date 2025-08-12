@@ -11,9 +11,22 @@ class instansiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Instansi::all(); // Ambil semua buku beserta relasi user
+        $query = Instansi::query();
+
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+        
+            $query->where('instansi', 'like', "%$keyword%")
+                    ->orWhere('post', 'like', "%$keyword%")
+                    ->orWhere('alamat_instansi', 'like', "%$keyword%")
+                    ->orWhere('no_telp', 'like', "%$keyword%")
+                    ->orWhere('npwp', 'like', "%$keyword%");
+        }
+        $data = $query->get();
+
+        // Mengembalikan data sebagai JSON
         return response()->json($data, 200);
     }
 

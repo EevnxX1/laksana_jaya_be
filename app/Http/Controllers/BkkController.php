@@ -29,7 +29,6 @@ class BkkController extends Controller
             // Anda bisa tambahkan kolom lain sesuai kebutuhan.
             $query->where('instansi', 'like', "%$keyword%")
                     ->orWhere('pekerjaan', 'like', "%$keyword%")
-                    ->orWhere('uraian', 'like', "%$keyword%")
                     ->orWhere('uraian', 'like', "%$keyword%");
         }
 
@@ -68,10 +67,31 @@ class BkkController extends Controller
         return response()->json($data, 200);
 
     }
-    public function detail_kantor()
+    public function detail_kantor(Request $request)
     {
-        $data = Bkk::where('identity_uk', 'buku_kantor')->get();
+        $query = Bkk::query();
+
+        // 1. Logika Search by Keyword
+        // Memeriksa apakah ada parameter 'keyword' di request.
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+        
+            // Menambahkan klausa 'where' untuk mencari data yang cocok
+            // pada kolom tertentu (misalnya 'judul' atau 'deskripsi').
+            // Anda bisa tambahkan kolom lain sesuai kebutuhan.
+            $query->where('tanggal', 'like', "%$keyword%")
+                    ->orWhere('uraian', 'like', "%$keyword%");
+        }
+
+        // Eksekusi query untuk mendapatkan data yang sudah difilter
+        $data = $query->where('identity_uk', 'buku_kantor')->get();
+
+        // Mengembalikan data sebagai JSON
         return response()->json($data, 200);
+
+        
+        // $data = Bkk::where('identity_uk', 'buku_kantor')->get();
+        // return response()->json($data, 200);
     }
     
     public function edit($id)
