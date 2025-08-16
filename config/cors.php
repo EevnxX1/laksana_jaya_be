@@ -6,7 +6,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://laksana-jaya.vercel.app'],
+    'allowed_origins' => ['https://laksana-jaya.vercel.app', 'http://192.168.56.1:3000'],
 
     'allowed_origins_patterns' => [],
 
